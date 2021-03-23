@@ -8,8 +8,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.kristof.weather.R
 import com.kristof.weather.models.DailyWeather
+import com.kristof.weather.presenters.CitiesPresenter
+import com.kristof.weather.presenters.WeatherPresenter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
     override fun onCreateView(
@@ -23,7 +28,20 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         return root
     }
 
+    override fun onStart() {
+        super.onStart()
+        WeatherPresenter.attachScreen(this);
+        lifecycleScope.launch(Dispatchers.IO) {
+            WeatherPresenter.getWeather("Budapest")
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        CitiesPresenter.detachScreen();
+    }
+
     override fun showWeather(weather: DailyWeather) {
-        TODO("Not yet implemented")
+
     }
 }
