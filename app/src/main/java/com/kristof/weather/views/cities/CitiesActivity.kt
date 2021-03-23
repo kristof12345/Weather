@@ -20,7 +20,6 @@ class CitiesActivity : AppCompatActivity() {
 
         val textView: TextView = findViewById(R.id.text_home)
         textView.text = "Cities Activity"
-
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             navigate()
         }
