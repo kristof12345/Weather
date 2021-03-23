@@ -8,10 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.kristof.weather.R
+import com.kristof.weather.models.City
 import com.kristof.weather.views.weather.WeatherActivity
 
 
-class CitiesActivity : AppCompatActivity() {
+class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,6 @@ class CitiesActivity : AppCompatActivity() {
 
         val textView: TextView = findViewById(R.id.text_home)
         textView.text = "Cities Activity"
-
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             navigate()
         }
@@ -28,5 +28,9 @@ class CitiesActivity : AppCompatActivity() {
 
     private fun navigate() {
         startActivity(Intent(this, WeatherActivity::class.java))
+    }
+
+    override fun showCities(citiesList: List<City>) {
+        TODO("Not yet implemented")
     }
 }
