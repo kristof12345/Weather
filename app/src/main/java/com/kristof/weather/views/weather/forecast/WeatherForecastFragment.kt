@@ -9,8 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.kristof.weather.R
+import com.kristof.weather.models.WeatherForecast
 
-class WeatherForecastFragment : Fragment() {
+class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -21,5 +22,9 @@ class WeatherForecastFragment : Fragment() {
         val textView: TextView = root.findViewById(R.id.text_dashboard)
         textView.text = "Weather forecast"
         return root
+    }
+
+    override fun showWeather(weather: WeatherForecast) {
+        TODO("Not yet implemented")
     }
 }
