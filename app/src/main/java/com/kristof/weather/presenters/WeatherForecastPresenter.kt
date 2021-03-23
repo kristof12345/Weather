@@ -1,5 +1,6 @@
 package com.kristof.weather.presenters
 
+import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.weather.forecast.IWeatherForecastScreen
 
 object WeatherForecastPresenter : Presenter<IWeatherForecastScreen?>() {

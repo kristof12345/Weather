@@ -1,6 +1,7 @@
 package com.kristof.weather.presenters
 
 import com.kristof.weather.models.City
+import com.kristof.weather.repositories.database.CitiesRepository
 import com.kristof.weather.views.cities.ICitiesScreen
 
 object CitiesPresenter: Presenter<ICitiesScreen?>()  {
