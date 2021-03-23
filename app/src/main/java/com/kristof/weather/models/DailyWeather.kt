@@ -8,12 +8,12 @@ data class DailyWeather(
 )
 
 data class Temperature(
-        var temp: Int,
-        var pressure: Int,
-        var humidity: Int
+        var temp: Double,
+        var pressure: Double,
+        var humidity: Double
 )
 
 data class Wind(
-        var speed: Int,
-        var deg: Int
+        var speed: Double,
+        var deg: Double
 )

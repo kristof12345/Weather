@@ -12,7 +12,7 @@ object WeatherRepository {
     private val api: WeatherService
 
     init {
-        var retrofit = Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5")
+        var retrofit = Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5/")
             .addConverterFactory(GsonConverterFactory.create()).build()
         api = retrofit.create(WeatherService::class.java)
         token = "d9c9822385ae388d2b7eff3471abefc3"
