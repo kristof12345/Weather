@@ -1,11 +1,26 @@
 package com.kristof.weather.repositories.network
 
 import com.kristof.weather.models.*
+import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 object WeatherRepository {
 
-    fun getCurrent(): DailyWeather {
-        return DailyWeather(Location(1, 2), Temperature(32, 120, 80), 10, Wind(50, 90))
+    private val token: String
+    private val units: String
+    private val api: WeatherService
+
+    init {
+        var retrofit = Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        api = retrofit.create(WeatherService::class.java)
+        token = "d9c9822385ae388d2b7eff3471abefc3"
+        units = "metric"
+    }
+
+    fun getCurrent(city: String): Call<DailyWeather> {
+        return api.getCurrentWeather(token, city, units)
     }
 
     fun getForecast(): WeatherForecast {
