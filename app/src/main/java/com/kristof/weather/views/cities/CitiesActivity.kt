@@ -12,7 +12,6 @@ import com.kristof.weather.models.City
 import com.kristof.weather.presenters.CitiesPresenter
 import com.kristof.weather.views.weather.WeatherActivity
 import kotlinx.android.synthetic.main.activity_cities.*
-import kotlinx.android.synthetic.main.add_city_dialog.*
 import kotlinx.android.synthetic.main.add_city_dialog.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,20 +53,10 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
             val builder = AlertDialog.Builder(it)
             val dialogView = this.layoutInflater.inflate(R.layout.add_city_dialog, null)
             builder.setView(dialogView).apply {
-                setPositiveButton(R.string.ok,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User clicked OK button
-                        addCity(dialogView.cityname.text.toString())
-                    })
-                setNegativeButton(R.string.cancel,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
+                setPositiveButton(R.string.ok) { _, _ -> addCity(dialogView.cityname.text.toString()) }
+                setNegativeButton(R.string.cancel) { _, _ -> }
             }
-            // Set other dialog properties
             builder?.setTitle(R.string.dialog_title)
-
-            // Create the AlertDialog
             builder.create()
         }
         alertDialog?.show()

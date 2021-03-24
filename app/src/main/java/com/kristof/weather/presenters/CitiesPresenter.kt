@@ -1,7 +1,5 @@
 package com.kristof.weather.presenters
 
-import com.kristof.weather.models.City
-import com.kristof.weather.models.DailyWeather
 import com.kristof.weather.repositories.database.CitiesRepository
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.cities.ICitiesScreen
