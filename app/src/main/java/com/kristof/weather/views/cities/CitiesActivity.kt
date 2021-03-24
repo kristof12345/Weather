@@ -1,5 +1,7 @@
 package com.kristof.weather.views.cities
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +12,8 @@ import com.kristof.weather.models.City
 import com.kristof.weather.presenters.CitiesPresenter
 import com.kristof.weather.views.weather.WeatherActivity
 import kotlinx.android.synthetic.main.activity_cities.*
+import kotlinx.android.synthetic.main.add_city_dialog.*
+import kotlinx.android.synthetic.main.add_city_dialog.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,7 +26,7 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         setContentView(R.layout.activity_cities)
         setSupportActionBar(findViewById(R.id.toolbar))
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            navigate()
+            showDialog()
         }
     }
 
@@ -45,7 +49,37 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         }
     }
 
-    private fun navigate() {
+    private fun showDialog() {
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(it)
+            val dialogView = this.layoutInflater.inflate(R.layout.add_city_dialog, null)
+            builder.setView(dialogView).apply {
+                setPositiveButton(R.string.ok,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User clicked OK button
+                        addCity(dialogView.cityname.text.toString())
+                    })
+                setNegativeButton(R.string.cancel,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                    })
+            }
+            // Set other dialog properties
+            builder?.setTitle(R.string.dialog_title)
+
+            // Create the AlertDialog
+            builder.create()
+        }
+        alertDialog?.show()
+    }
+
+    private fun addCity(city: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            CitiesPresenter.addCity(city)
+        }
+    }
+
+    private fun navigateToDetails() {
         startActivity(Intent(this, WeatherActivity::class.java))
     }
 

@@ -19,12 +19,12 @@ object CitiesPresenter : Presenter<ICitiesScreen?>() {
         this.screen?.showCities(citiesList)
     }
 
-    fun addCity(city: City) {
+    fun addCity(city: String) {
         CitiesRepository.addToFavourites(city)
         getCities()
     }
 
-    fun deleteCity(city: City) {
+    fun deleteCity(city: String) {
         CitiesRepository.removeFromFavourites(city)
         getCities()
     }
