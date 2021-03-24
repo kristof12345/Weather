@@ -74,14 +74,18 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
     }
 
     override fun deleteCity(position: Int) {
-        val city = adapter.cities.get(position)
+        val city = adapter.cities[position]
         lifecycleScope.launch(Dispatchers.IO) {
             CitiesPresenter.deleteCity(city.name, applicationContext)
         }
     }
 
     override fun navigateToDetails(city: City) {
-        startActivity(Intent(this, WeatherActivity::class.java))
+        val args = Bundle()
+        args.putString("city", city.name);
+        var intent = Intent(this, WeatherActivity::class.java)
+        intent.putExtras(args)
+        startActivity(intent)
     }
 
     override fun showCities(cityList: List<City>) {
