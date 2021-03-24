@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 
-class TouchHelper(var notifier: TouchHelperNotifier) :
+class TouchHelper(private val screen: ICitiesScreen) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
     override fun onMove(
         recyclerView: RecyclerView,
@@ -15,6 +15,6 @@ class TouchHelper(var notifier: TouchHelperNotifier) :
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-        notifier.onItemDismissed(viewHolder.adapterPosition)
+        screen.deleteCity(viewHolder.adapterPosition)
     }
 }

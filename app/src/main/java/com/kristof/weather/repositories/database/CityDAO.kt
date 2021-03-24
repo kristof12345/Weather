@@ -6,7 +6,7 @@ import com.kristof.weather.repositories.database.entities.CityEntity
 @Dao
 interface CityDAO {
     @Query("SELECT * FROM cities")
-    fun getAllCities(): List<CityEntity>
+    fun getCities(): List<CityEntity>
 
     @Insert
     fun insertCity(city: CityEntity): Long

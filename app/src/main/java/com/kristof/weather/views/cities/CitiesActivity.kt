@@ -16,8 +16,7 @@ import kotlinx.android.synthetic.main.add_city_dialog.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-class CitiesActivity : AppCompatActivity(), ICitiesScreen, TouchHelperNotifier {
+class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     lateinit var adapter: CityListAdapter
 
@@ -47,7 +46,7 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen, TouchHelperNotifier {
 
     override fun onResume() {
         super.onResume()
-        adapter = CityListAdapter(this)
+        adapter = CityListAdapter(this, this)
         cityList.adapter = adapter
         lifecycleScope.launch(Dispatchers.IO) {
             CitiesPresenter.getCities(applicationContext)
@@ -55,14 +54,14 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen, TouchHelperNotifier {
     }
 
     private fun showDialog() {
-        val alertDialog: AlertDialog? = this?.let {
+        val alertDialog: AlertDialog? = this.let {
             val builder = AlertDialog.Builder(it)
             val dialogView = this.layoutInflater.inflate(R.layout.add_city_dialog, null)
             builder.setView(dialogView).apply {
                 setPositiveButton(R.string.ok) { _, _ -> addCity(dialogView.cityname.text.toString()) }
                 setNegativeButton(R.string.cancel) { _, _ -> }
             }
-            builder?.setTitle(R.string.dialog_title)
+            builder.setTitle(R.string.dialog_title)
             builder.create()
         }
         alertDialog?.show()
@@ -74,14 +73,14 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen, TouchHelperNotifier {
         }
     }
 
-    override fun onItemDismissed(position: Int) {
+    override fun deleteCity(position: Int) {
         val city = adapter.cities.get(position)
         lifecycleScope.launch(Dispatchers.IO) {
             CitiesPresenter.deleteCity(city.name, applicationContext)
         }
     }
 
-    private fun navigateToDetails() {
+    override fun navigateToDetails(city: City) {
         startActivity(Intent(this, WeatherActivity::class.java))
     }
 
