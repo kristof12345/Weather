@@ -5,12 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.kristof.weather.R
 import com.kristof.weather.models.City
+import com.kristof.weather.presenters.CitiesPresenter
 import com.kristof.weather.views.weather.WeatherActivity
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
@@ -26,11 +30,24 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        CitiesPresenter.attachScreen(this);
+        lifecycleScope.launch(Dispatchers.IO) {
+            CitiesPresenter.getCities()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        CitiesPresenter.detachScreen();
+    }
+
     private fun navigate() {
         startActivity(Intent(this, WeatherActivity::class.java))
     }
 
     override fun showCities(citiesList: List<City>) {
-        TODO("Not yet implemented")
+
     }
 }

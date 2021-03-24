@@ -20,11 +20,12 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_forecast, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        textView.text = "Weather forecast"
+        val city = arguments?.getString("city")
+        textView.text = city + "weather forecast"
         return root
     }
 
     override fun showWeather(weather: WeatherForecast) {
-        TODO("Not yet implemented")
+        
     }
 }
