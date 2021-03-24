@@ -5,7 +5,7 @@ import com.kristof.weather.models.Location
 
 object CitiesRepository {
     fun getFavourites(): MutableList<City> {
-        val cities = mutableListOf(City("Budapest", Location(0.0,0.0)), City("London", Location(0.0,0.0)), City("Paris", Location(0.0,0.0)));
+        val cities = mutableListOf(City("Budapest", Location(0.0,0.0) ), City("London", Location(0.0,0.0)), City("Paris", Location(0.0,0.0)));
         return cities;
     }
 

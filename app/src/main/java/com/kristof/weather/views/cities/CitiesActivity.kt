@@ -50,6 +50,8 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
     }
 
     override fun showCities(cityList: List<City>) {
-        adapter.setCityList(cityList)
+        lifecycleScope.launch(Dispatchers.Main) {
+            adapter.setCityList(cityList)
+        }
     }
 }

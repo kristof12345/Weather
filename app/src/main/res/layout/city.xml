@@ -35,10 +35,10 @@
             android:layout_width="30dp" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageWeather"
             android:layout_weight="1"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
             app:srcCompat="@drawable/ic_home_black_24dp" />
 
     </LinearLayout>

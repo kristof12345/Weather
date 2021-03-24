@@ -10,6 +10,12 @@ object CitiesPresenter : Presenter<ICitiesScreen?>() {
 
     fun getCities() {
         var citiesList = CitiesRepository.getFavourites()
+        for (city in citiesList) {
+            var weather = WeatherRepository.getCurrent(city).execute().body()!!
+            city.temperature = weather.main.temp
+            city.weatherIcon = weather.weather.first().icon
+        }
+
         this.screen?.showCities(citiesList)
     }
 
