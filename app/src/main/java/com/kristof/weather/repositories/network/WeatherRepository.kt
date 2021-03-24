@@ -24,6 +24,6 @@ object WeatherRepository {
     }
 
     fun getForecast(city: City): Call<WeatherForecast> {
-        return api.getWeatherForecast(token, city.location.lat, city.location.lon, units)
+        return api.getWeatherForecast(token, city.location!!.lat, city.location!!.lon, units)
     }
 }

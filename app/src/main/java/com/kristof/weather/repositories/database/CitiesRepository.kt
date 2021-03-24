@@ -1,7 +1,9 @@
 package com.kristof.weather.repositories.database
 
+import android.content.Context
 import com.kristof.weather.models.City
 import com.kristof.weather.models.Location
+import com.kristof.weather.repositories.database.entities.CityEntity
 
 object CitiesRepository {
     private val cities = mutableListOf(
@@ -10,15 +12,18 @@ object CitiesRepository {
         City("Paris", Location(0.0, 0.0))
     );
 
-    fun getFavourites(): MutableList<City> {
+    fun getFavourites(context: Context): MutableList<City> {
+        var citiesList = AppDatabase.getInstance(context).cityDao().getAllCities()
+        val cities = mutableListOf<City>()
+        for (city in citiesList) cities.add(City(city.name))
         return cities;
     }
 
-    fun addToFavourites(name: String) {
-        cities.add(City(name, Location(0.0, 0.0)))
+    fun addToFavourites(name: String, context: Context) {
+        AppDatabase.getInstance(context).cityDao().insertCity(CityEntity(null, name))
     }
 
-    fun removeFromFavourites(name: String) {
-
+    fun removeFromFavourites(name: String, context: Context) {
+        //AppDatabase.getInstance(context).cityDao().insertCity(CityEntity(null, name))
     }
 }

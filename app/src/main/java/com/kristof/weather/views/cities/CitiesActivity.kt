@@ -44,7 +44,7 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         adapter = CityListAdapter(this)
         cityList.adapter = adapter
         lifecycleScope.launch(Dispatchers.IO) {
-            CitiesPresenter.getCities()
+            CitiesPresenter.getCities(applicationContext)
         }
     }
 
@@ -64,7 +64,7 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     private fun addCity(city: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            CitiesPresenter.addCity(city)
+            CitiesPresenter.addCity(city, applicationContext)
         }
     }
 
