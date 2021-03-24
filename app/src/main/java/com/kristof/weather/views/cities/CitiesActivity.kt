@@ -1,11 +1,11 @@
 package com.kristof.weather.views.cities
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kristof.weather.R
 import com.kristof.weather.models.City
@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.add_city_dialog.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CitiesActivity : AppCompatActivity(), ICitiesScreen {
+
+class CitiesActivity : AppCompatActivity(), ICitiesScreen, TouchHelperNotifier {
 
     lateinit var adapter: CityListAdapter
 
@@ -24,9 +25,14 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cities)
         setSupportActionBar(findViewById(R.id.toolbar))
+
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             showDialog()
         }
+
+        val callback = TouchHelper(this)
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(findViewById(R.id.cityList))
     }
 
     override fun onStart() {
@@ -65,6 +71,13 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
     private fun addCity(city: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             CitiesPresenter.addCity(city, applicationContext)
+        }
+    }
+
+    override fun onItemDismissed(position: Int) {
+        val city = adapter.cities.get(position)
+        lifecycleScope.launch(Dispatchers.IO) {
+            CitiesPresenter.deleteCity(city.name, applicationContext)
         }
     }
 

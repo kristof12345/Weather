@@ -13,7 +13,7 @@ import com.kristof.weather.models.City
 import kotlinx.android.synthetic.main.city.view.*
 
 class CityListAdapter(private val context: Context) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
-    private var cities = mutableListOf<City>()
+    var cities = mutableListOf<City>()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.tvName

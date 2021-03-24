@@ -11,9 +11,7 @@ interface CityDAO {
     @Insert
     fun insertCity(city: CityEntity): Long
 
-    @Delete
-    fun deleteCity(city: CityEntity)
+    @Query("DELETE FROM cities WHERE name = :name")
+    fun deleteCityByName(name: String)
 
-    @Update
-    fun updateCity(city: CityEntity)
 }
