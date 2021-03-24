@@ -1,41 +1,38 @@
 package com.kristof.weather.views.cities
 
-import android.R.attr.action
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.kristof.weather.R
 import com.kristof.weather.models.City
 import com.kristof.weather.presenters.CitiesPresenter
 import com.kristof.weather.views.weather.WeatherActivity
+import kotlinx.android.synthetic.main.activity_cities.*
+import kotlinx.android.synthetic.main.add_city_dialog.*
+import kotlinx.android.synthetic.main.add_city_dialog.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CitiesActivity : AppCompatActivity(), ICitiesScreen {
+
+    lateinit var adapter: CityListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cities)
         setSupportActionBar(findViewById(R.id.toolbar))
-
-        val textView: TextView = findViewById(R.id.text_home)
-        textView.text = "Cities Activity"
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            navigate()
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            showDialog()
         }
     }
 
     override fun onStart() {
         super.onStart()
         CitiesPresenter.attachScreen(this);
-        lifecycleScope.launch(Dispatchers.IO) {
-            CitiesPresenter.getCities()
-        }
     }
 
     override fun onStop() {
@@ -43,11 +40,52 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         CitiesPresenter.detachScreen();
     }
 
-    private fun navigate() {
+    override fun onResume() {
+        super.onResume()
+        adapter = CityListAdapter(this)
+        cityList.adapter = adapter
+        lifecycleScope.launch(Dispatchers.IO) {
+            CitiesPresenter.getCities()
+        }
+    }
+
+    private fun showDialog() {
+        val alertDialog: AlertDialog? = this?.let {
+            val builder = AlertDialog.Builder(it)
+            val dialogView = this.layoutInflater.inflate(R.layout.add_city_dialog, null)
+            builder.setView(dialogView).apply {
+                setPositiveButton(R.string.ok,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User clicked OK button
+                        addCity(dialogView.cityname.text.toString())
+                    })
+                setNegativeButton(R.string.cancel,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                    })
+            }
+            // Set other dialog properties
+            builder?.setTitle(R.string.dialog_title)
+
+            // Create the AlertDialog
+            builder.create()
+        }
+        alertDialog?.show()
+    }
+
+    private fun addCity(city: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            CitiesPresenter.addCity(city)
+        }
+    }
+
+    private fun navigateToDetails() {
         startActivity(Intent(this, WeatherActivity::class.java))
     }
 
-    override fun showCities(citiesList: List<City>) {
-
+    override fun showCities(cityList: List<City>) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            adapter.setCityList(cityList)
+        }
     }
 }

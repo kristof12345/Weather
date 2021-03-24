@@ -21,7 +21,7 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
         val root = inflater.inflate(R.layout.fragment_forecast, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
         val city = arguments?.getString("city")
-        textView.text = city + "weather forecast"
+        textView.text = "$city weather forecast"
         return root
     }
 

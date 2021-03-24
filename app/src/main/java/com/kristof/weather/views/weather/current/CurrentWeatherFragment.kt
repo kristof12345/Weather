@@ -25,7 +25,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         val root = inflater.inflate(R.layout.fragment_current, container, false)
         val textView: TextView = root.findViewById(R.id.text_home)
         val city = arguments?.getString("city")
-        textView.text = city + " current weather"
+        textView.text = "$city current weather"
         return root
     }
 

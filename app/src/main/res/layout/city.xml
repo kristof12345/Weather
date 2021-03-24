@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <TextView
+            android:id="@+id/tvName"
+            android:text="City name"
+            android:textSize="24sp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:layout_width="100dp" />
+
+        <TextView
+            android:id="@+id/tvTemp"
+            android:text="23 C"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="30dp" />
+
+        <ImageView
+            android:id="@+id/imageWeather"
+            android:layout_weight="1"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/ic_home_black_24dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
