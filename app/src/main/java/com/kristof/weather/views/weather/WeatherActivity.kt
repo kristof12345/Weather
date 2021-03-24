@@ -15,12 +15,21 @@ class WeatherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
         val navController = findNavController(R.id.nav_host_fragment)
+
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_home, R.id.navigation_dashboard
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //Pass arguments to destination fragment
+        val args = Bundle()
+        args.putString("city", "Budapest");
+        navView.setOnNavigationItemSelectedListener { item ->
+            navController.navigate(item.itemId, args)
+            true
+        }
+        navController.navigate(R.id.navigation_home, args)
     }
 }

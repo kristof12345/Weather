@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -19,16 +19,11 @@ object WeatherRepository {
         units = "metric"
     }
 
-    fun getCurrent(city: String): Call<DailyWeather> {
-        return api.getCurrentWeather(token, city, units)
+    fun getCurrent(city: City): Call<DailyWeather> {
+        return api.getCurrentWeather(token, city.name, units)
     }
 
-    fun getForecast(): WeatherForecast {
-        return WeatherForecast(
-            1,
-            2,
-            mutableListOf(WeatherForecastPoint(32, 120, 80)),
-            mutableListOf(WeatherForecastPoint(32, 120, 80))
-        )
+    fun getForecast(city: City): Call<WeatherForecast> {
+        return api.getWeatherForecast(token, city.location.lat, city.location.lon, units)
     }
 }

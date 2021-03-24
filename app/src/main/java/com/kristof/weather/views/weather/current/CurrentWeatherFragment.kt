@@ -24,7 +24,8 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_current, container, false)
         val textView: TextView = root.findViewById(R.id.text_home)
-        textView.text = "Current weather"
+        val city = arguments?.getString("city")
+        textView.text = city + " current weather"
         return root
     }
 
@@ -32,7 +33,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         super.onStart()
         WeatherPresenter.attachScreen(this);
         lifecycleScope.launch(Dispatchers.IO) {
-            WeatherPresenter.getWeather("Budapest")
+            //WeatherPresenter.getWeather("Budapest")
         }
     }
 
