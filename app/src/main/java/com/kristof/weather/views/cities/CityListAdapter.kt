@@ -10,7 +10,8 @@ import com.kristof.weather.R
 import com.kristof.weather.models.City
 import kotlinx.android.synthetic.main.city.view.*
 
-class CityListAdapter(private val context: Context) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+class CityListAdapter(private val context: Context) :
+    RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
     var cities = mutableListOf<City>()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,5 +29,11 @@ class CityListAdapter(private val context: Context) : RecyclerView.Adapter<CityL
 
     override fun getItemCount(): Int {
         return cities.size
+    }
+
+    fun setCityList(cityList: List<City>) {
+        cities.clear()
+        cities.addAll(cityList)
+        notifyDataSetChanged()
     }
 }
