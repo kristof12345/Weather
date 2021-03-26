@@ -4,7 +4,7 @@ import android.content.Context
 import com.kristof.weather.models.City
 import com.kristof.weather.repositories.database.entities.CityEntity
 
-object CitiesRepository {
+class CitiesRepository {
     fun getFavourites(context: Context): MutableList<City> {
         var citiesList = AppDatabase.getInstance(context).cityDao().getCities()
         val cities = mutableListOf<City>()

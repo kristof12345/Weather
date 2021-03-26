@@ -4,13 +4,18 @@ import android.content.Context
 import com.kristof.weather.repositories.database.CitiesRepository
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.cities.ICitiesScreen
+import javax.inject.Inject
 
-object CitiesPresenter : Presenter<ICitiesScreen?>() {
+class CitiesPresenter @Inject constructor(
+    private val citiesRepository: CitiesRepository,
+    private val weatherRepository: WeatherRepository
+) :
+    Presenter<ICitiesScreen?>() {
 
     fun getCities(context: Context) {
-        var citiesList = CitiesRepository.getFavourites(context)
+        var citiesList = citiesRepository.getFavourites(context)
         for (city in citiesList) {
-            var response = WeatherRepository.getCurrent(city).execute()
+            var response = weatherRepository.getCurrent(city).execute()
             if (response.isSuccessful) {
                 var weather = response.body()!!
                 city.location = weather.coord
@@ -22,12 +27,12 @@ object CitiesPresenter : Presenter<ICitiesScreen?>() {
     }
 
     fun addCity(city: String, context: Context) {
-        CitiesRepository.addToFavourites(city, context)
+        citiesRepository.addToFavourites(city, context)
         getCities(context)
     }
 
     fun deleteCity(city: String, context: Context) {
-        CitiesRepository.removeFromFavourites(city, context)
+        citiesRepository.removeFromFavourites(city, context)
         getCities(context)
     }
 }

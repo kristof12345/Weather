@@ -3,11 +3,12 @@ package com.kristof.weather.presenters
 import com.kristof.weather.models.City
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.weather.current.ICurrentWeatherScreen
+import javax.inject.Inject
 
-object WeatherPresenter : Presenter<ICurrentWeatherScreen?>() {
+class WeatherPresenter @Inject constructor(private val weatherRepository: WeatherRepository) : Presenter<ICurrentWeatherScreen?>() {
 
     fun getWeather(city: City) {
-        var response = WeatherRepository.getCurrent(city).execute()
+        var response = weatherRepository.getCurrent(city).execute()
         this.screen?.showWeather(response.body()!!)
     }
 }
