@@ -1,26 +1,24 @@
 package com.kristof.weather.presenters
 
-import com.kristof.weather.presenters.CitiesPresenter
-import com.kristof.weather.presenters.WeatherForecastPresenter
-import com.kristof.weather.presenters.WeatherPresenter
+import com.kristof.weather.repositories.database.CitiesRepository
+import com.kristof.weather.repositories.network.WeatherRepository
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class PresenterModule() {
     @Provides
     fun provideCitiesPresenter() : CitiesPresenter {
-        return CitiesPresenter()
+        return CitiesPresenter(CitiesRepository(), WeatherRepository())
     }
 
     @Provides
     fun provideWeatherPresenter() : WeatherPresenter {
-        return WeatherPresenter()
+        return WeatherPresenter(WeatherRepository())
     }
 
     @Provides
     fun provideWeatherForecastPresenter() : WeatherForecastPresenter {
-        return WeatherForecastPresenter()
+        return WeatherForecastPresenter(WeatherRepository())
     }
 }

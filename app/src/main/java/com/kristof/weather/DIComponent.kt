@@ -6,7 +6,9 @@ import com.kristof.weather.views.weather.WeatherActivity
 import com.kristof.weather.views.weather.current.CurrentWeatherFragment
 import com.kristof.weather.views.weather.forecast.WeatherForecastFragment
 import dagger.Component
+import javax.inject.Singleton
 
+@Singleton
 @Component(modules = [PresenterModule::class])
 interface DIComponent {
     fun inject(citiesActivity: CitiesActivity)
