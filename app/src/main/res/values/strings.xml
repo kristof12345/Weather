@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Weather</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_current">Daily weather</string>
+    <string name="title_forecast">Weather forecast</string>
+    <string name="title_activity_cities">Cities</string>
+    <string name="title_current_weather">Current</string>
+    <string name="title_weather_forecast">Forecast</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_title">Add city to favourites</string>
+    <string name="cityname">City name</string>
 </resources>

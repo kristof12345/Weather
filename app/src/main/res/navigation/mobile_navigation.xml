@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.kristof.weather.views.weather.current.HomeFragment"
-        android:label="@string/title_home"
+        android:name="com.kristof.weather.views.weather.current.CurrentWeatherFragment"
+        android:label="@string/title_current"
         tools:layout="@layout/fragment_current" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.kristof.weather.views.weather.forecast.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:name="com.kristof.weather.views.weather.forecast.WeatherForecastFragment"
+        android:label="@string/title_forecast"
         tools:layout="@layout/fragment_forecast" />
 </navigation>
