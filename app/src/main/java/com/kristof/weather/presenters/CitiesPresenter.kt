@@ -5,7 +5,7 @@ import com.kristof.weather.repositories.database.CitiesRepository
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.cities.ICitiesScreen
 
-object CitiesPresenter : Presenter<ICitiesScreen?>() {
+class CitiesPresenter : Presenter<ICitiesScreen?>() {
 
     fun getCities(context: Context) {
         var citiesList = CitiesRepository.getFavourites(context)

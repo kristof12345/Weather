@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.City
 import com.kristof.weather.presenters.CitiesPresenter
@@ -15,15 +16,19 @@ import kotlinx.android.synthetic.main.activity_cities.*
 import kotlinx.android.synthetic.main.add_city_dialog.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class CitiesActivity : AppCompatActivity(), ICitiesScreen {
-
+    @Inject
+    lateinit var citiesPresenter: CitiesPresenter
     lateinit var adapter: CityListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cities)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        (application as MainApplication).injector.inject(this)
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             showDialog()
@@ -36,12 +41,12 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun onStart() {
         super.onStart()
-        CitiesPresenter.attachScreen(this);
+        citiesPresenter.attachScreen(this);
     }
 
     override fun onStop() {
         super.onStop()
-        CitiesPresenter.detachScreen();
+        citiesPresenter.detachScreen();
     }
 
     override fun onResume() {
@@ -49,7 +54,7 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         adapter = CityListAdapter(this, this)
         cityList.adapter = adapter
         lifecycleScope.launch(Dispatchers.IO) {
-            CitiesPresenter.getCities(applicationContext)
+            citiesPresenter.getCities(applicationContext)
         }
     }
 
@@ -69,14 +74,14 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     private fun addCity(city: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            CitiesPresenter.addCity(city, applicationContext)
+            citiesPresenter.addCity(city, applicationContext)
         }
     }
 
     override fun deleteCity(position: Int) {
         val city = adapter.cities[position]
         lifecycleScope.launch(Dispatchers.IO) {
-            CitiesPresenter.deleteCity(city.name, applicationContext)
+            citiesPresenter.deleteCity(city.name, applicationContext)
         }
     }
 
@@ -92,5 +97,9 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         lifecycleScope.launch(Dispatchers.Main) {
             adapter.setCityList(cityList)
         }
+    }
+
+    override fun showError(msg: String) {
+        TODO("Not yet implemented")
     }
 }
