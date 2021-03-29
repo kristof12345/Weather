@@ -46,7 +46,7 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
         super.onStart()
         weatherPresenter.attachScreen(this);
         lifecycleScope.launch(Dispatchers.IO) {
-            weatherPresenter.getWeather(City("Budapest", Location(10.0,20.0)))
+            weatherPresenter.getWeather(City("Budapest", Location(10.0,20.0)), requireContext())
         }
     }
 

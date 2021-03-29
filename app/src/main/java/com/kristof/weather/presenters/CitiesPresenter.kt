@@ -1,6 +1,7 @@
 package com.kristof.weather.presenters
 
 import android.content.Context
+import com.kristof.weather.getDefaultSharedPreferences
 import com.kristof.weather.repositories.database.CitiesRepository
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.cities.ICitiesScreen
@@ -13,9 +14,12 @@ class CitiesPresenter @Inject constructor(
     Presenter<ICitiesScreen?>() {
 
     fun getCities(context: Context) {
+        val preferences = context.getDefaultSharedPreferences()
+        val unit = preferences.getString("unit", "metric")!!
+
         var citiesList = citiesRepository.getFavourites(context)
         for (city in citiesList) {
-            var response = weatherRepository.getCurrent(city).execute()
+            var response = weatherRepository.getCurrent(city, unit).execute()
             if (response.isSuccessful) {
                 var weather = response.body()!!
                 city.location = weather.coord
