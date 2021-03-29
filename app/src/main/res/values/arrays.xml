@@ -1,0 +1,15 @@
+<resources>
+
+    <string-array name="unit_entries">
+        <item>Metric</item>
+        <item>Standard</item>
+        <item>Imperial</item>
+    </string-array>
+
+    <string-array name="unit_values">
+        <item>metric</item>
+        <item>standard</item>
+        <item>imperial</item>
+    </string-array>
+
+</resources>

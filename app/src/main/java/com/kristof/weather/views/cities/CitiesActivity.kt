@@ -3,6 +3,8 @@ package com.kristof.weather.views.cities
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,6 +13,7 @@ import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.City
 import com.kristof.weather.presenters.CitiesPresenter
+import com.kristof.weather.views.settings.SettingsActivity
 import com.kristof.weather.views.weather.WeatherActivity
 import kotlinx.android.synthetic.main.activity_cities.*
 import kotlinx.android.synthetic.main.add_city_dialog.view.*
@@ -22,6 +25,18 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
     @Inject
     lateinit var citiesPresenter: CitiesPresenter
     lateinit var adapter: CityListAdapter
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> navigateToSettings()
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +106,11 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         var intent = Intent(this, WeatherActivity::class.java)
         intent.putExtras(args)
         startActivity(intent)
+    }
+
+    private fun navigateToSettings(): Boolean {
+        startActivity(Intent(this, SettingsActivity::class.java))
+        return true
     }
 
     override fun showCities(cityList: List<City>) {

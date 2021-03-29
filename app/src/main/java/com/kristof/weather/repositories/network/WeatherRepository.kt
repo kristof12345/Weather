@@ -1,6 +1,8 @@
 package com.kristof.weather.repositories.network
 
-import com.kristof.weather.models.*
+import com.kristof.weather.models.City
+import com.kristof.weather.models.DailyWeather
+import com.kristof.weather.models.WeatherForecast
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class WeatherRepository {
 
     private val token: String
-    private val units: String
     private val api: WeatherService
 
     init {
@@ -16,14 +17,13 @@ class WeatherRepository {
             .addConverterFactory(GsonConverterFactory.create()).build()
         api = retrofit.create(WeatherService::class.java)
         token = "d9c9822385ae388d2b7eff3471abefc3"
-        units = "metric"
     }
 
-    fun getCurrent(city: City): Call<DailyWeather> {
-        return api.getCurrentWeather(token, city.name, units)
+    fun getCurrent(city: City, unit: String): Call<DailyWeather> {
+        return api.getCurrentWeather(token, city.name, unit)
     }
 
-    fun getForecast(city: City): Call<WeatherForecast> {
-        return api.getWeatherForecast(token, city.location!!.lat, city.location!!.lon, units)
+    fun getForecast(city: City, unit: String): Call<WeatherForecast> {
+        return api.getWeatherForecast(token, city.location!!.lat, city.location!!.lon, unit)
     }
 }
