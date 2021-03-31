@@ -4,11 +4,11 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_current_weather" />
+        android:title="@string/current_weather_tab" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_weather_forecast" />
+        android:title="@string/weather_forecast_tab" />
 
 </menu>

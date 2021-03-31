@@ -78,10 +78,10 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
             val builder = AlertDialog.Builder(it)
             val dialogView = this.layoutInflater.inflate(R.layout.add_city_dialog, null)
             builder.setView(dialogView).apply {
-                setPositiveButton(R.string.ok) { _, _ -> addCity(dialogView.cityname.text.toString()) }
+                setPositiveButton(R.string.ok) { _, _ -> addCity(dialogView.city_name.text.toString()) }
                 setNegativeButton(R.string.cancel) { _, _ -> }
             }
-            builder.setTitle(R.string.dialog_title)
+            builder.setTitle(R.string.add_city_dialog_title)
             builder.create()
         }
         alertDialog?.show()
