@@ -113,9 +113,9 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
         return true
     }
 
-    override fun showCities(cityList: List<City>) {
+    override fun showCities(citiesList: List<City>) {
         lifecycleScope.launch(Dispatchers.Main) {
-            adapter.setCityList(cityList)
+            adapter.setCityList(citiesList)
         }
     }
 

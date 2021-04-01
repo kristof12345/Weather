@@ -19,13 +19,10 @@ class CitiesPresenter @Inject constructor(
 
         var citiesList = citiesRepository.getFavourites(context)
         for (city in citiesList) {
-            var response = weatherRepository.getCurrent(city, unit).execute()
-            if (response.isSuccessful) {
-                var weather = response.body()!!
-                city.location = weather.coord
-                city.temperature = weather.main.temp
-                city.weatherIcon = weather.weather.first().icon
-            }
+            var weather = weatherRepository.getCurrent(city, unit)
+            city.location = weather.coord
+            city.temperature = weather.main.temp
+            city.weatherIcon = weather.weather.first().icon
         }
         this.screen?.showCities(citiesList)
     }

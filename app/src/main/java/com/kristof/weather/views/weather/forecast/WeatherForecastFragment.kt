@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.City
+import com.kristof.weather.models.DailyWeatherForecast
 import com.kristof.weather.models.Location
-import com.kristof.weather.models.WeatherForecast
 import com.kristof.weather.presenters.WeatherForecastPresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,9 +26,9 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
     var textView: TextView? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_forecast, container, false)
         textView = root.findViewById(R.id.text_dashboard)
@@ -44,21 +44,24 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
 
     override fun onStart() {
         super.onStart()
-        weatherPresenter.attachScreen(this);
+        weatherPresenter.attachScreen(this)
         lifecycleScope.launch(Dispatchers.IO) {
-            weatherPresenter.getWeather(City("Budapest", Location(10.0,20.0)), requireContext())
+            weatherPresenter.getDailyWeather(
+                City("Budapest", Location(10.0, 20.0)),
+                requireContext()
+            )
         }
     }
 
     override fun onStop() {
         super.onStop()
-        weatherPresenter.detachScreen();
+        weatherPresenter.detachScreen()
     }
 
-    override fun showWeather(weather: WeatherForecast) {
+    override fun showWeather(weather: List<DailyWeatherForecast>) {
         lifecycleScope.launch(Dispatchers.Main) {
             //TODO: Display data
-            textView?.text = weather.lat.toString()
+            textView?.text = weather.first().temp.toString()
         }
     }
 

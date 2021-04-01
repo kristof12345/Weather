@@ -3,18 +3,22 @@ package com.kristof.weather.presenters
 import android.content.Context
 import com.kristof.weather.getDefaultSharedPreferences
 import com.kristof.weather.models.City
-import com.kristof.weather.repositories.database.CitiesRepository
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.weather.forecast.IWeatherForecastScreen
 import javax.inject.Inject
 
-class WeatherForecastPresenter @Inject constructor(private val weatherRepository: WeatherRepository) : Presenter<IWeatherForecastScreen?>() {
+class WeatherForecastPresenter @Inject constructor(private val weatherRepository: WeatherRepository) :
+    Presenter<IWeatherForecastScreen?>() {
 
-    fun getWeather(city: City, context: Context) {
+    fun getDailyWeather(city: City, context: Context) {
+        val unit = getUnit(context)
+
+        var response = weatherRepository.getDailyForecast(city, unit)
+        this.screen?.showWeather(response)
+    }
+
+    private fun getUnit(context: Context): String {
         val preferences = context.getDefaultSharedPreferences()
-        val unit = preferences.getString("unit", "metric")!!
-
-        var response = weatherRepository.getForecast(city, unit).execute()
-        this.screen?.showWeather(response.body()!!)
+        return preferences.getString("unit", "metric")!!
     }
 }
