@@ -9,7 +9,7 @@ class CitiesRepository {
         var citiesList = AppDatabase.getInstance(context).cityDao().getCities()
         val cities = mutableListOf<City>()
         for (city in citiesList) cities.add(City(city.name))
-        return cities;
+        return cities
     }
 
     fun addToFavourites(name: String, context: Context) {

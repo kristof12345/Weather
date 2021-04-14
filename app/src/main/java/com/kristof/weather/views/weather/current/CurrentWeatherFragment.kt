@@ -99,7 +99,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
     override fun showWeather(weather: CurrentWeather) {
         lifecycleScope.launch(Dispatchers.Main) {
-            textViewTemp.text = weather.temp.toString() + UnitFormatter.Temperature(requireContext())
+            textViewTemp.text = weather.temp.toString() + UnitFormatter.getTemperature(requireContext())
             textViewWind.text = weather.wind.speed.toString()
             textViewPressure.text = weather.pressure.toString()
             textViewRain.text = weather.humidity.toString()

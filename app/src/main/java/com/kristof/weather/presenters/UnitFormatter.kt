@@ -4,15 +4,17 @@ import android.content.Context
 import com.kristof.weather.getDefaultSharedPreferences
 
 object UnitFormatter {
-    fun Temperature(context: Context): String {
-        return FormatTemperature(getUnit(context))
+    fun getTemperature(context: Context): String {
+        return formatTemperature(getUnit(context))
     }
 
-    private fun FormatTemperature(unit: String): String {
-        if(unit == "metric") return "\u2103"
-        if(unit == "standard") return "F"
-        if(unit == "imperial") return "K"
-        return ""
+    private fun formatTemperature(unit: String): String {
+        return when (unit) {
+            "metric" -> "\u2103"    //Celsius
+            "standard" -> "K"       //Kelvin
+            "imperial" -> "\u2109"  //Fahrenheit
+            else -> ""
+        }
     }
 
     private fun getUnit(context: Context): String {

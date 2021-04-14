@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kristof.weather.R
-import com.kristof.weather.getDefaultSharedPreferences
 import com.kristof.weather.models.City
 import com.kristof.weather.presenters.UnitFormatter
 import kotlinx.android.synthetic.main.city.view.*
@@ -33,9 +32,9 @@ class CityListAdapter(private val screen: ICitiesScreen, private val context: Co
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val city = cities[position]
         holder.name.text = city.name
-        holder.temperature.text = city.temperature.toUInt().toString() + UnitFormatter.Temperature(context)
-        val url = "https://openweathermap.org/img/wn/" + city.weatherIcon + "@2x.png"
-        Glide.with(context).load(url).into(holder.image);
+        holder.temperature.text = "${city.temperature.toInt()} ${UnitFormatter.getTemperature(context)}"
+        val url = "https://openweathermap.org/img/wn/${city.weatherIcon}@2x.png"
+        Glide.with(context).load(url).into(holder.image)
         holder.card.setOnClickListener {
             screen.navigateToDetails(city)
         }

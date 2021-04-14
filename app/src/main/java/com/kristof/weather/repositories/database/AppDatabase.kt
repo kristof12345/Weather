@@ -17,8 +17,10 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AppDatabase {
             if (Instance == null) {
-                Instance = Room.databaseBuilder(context.applicationContext,
-                    AppDatabase::class.java, "cities.db")
+                Instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java, "cities.db"
+                )
                     .fallbackToDestructiveMigration()
                     .build()
             }
