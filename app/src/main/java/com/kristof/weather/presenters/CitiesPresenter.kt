@@ -21,8 +21,8 @@ class CitiesPresenter @Inject constructor(
         for (city in citiesList) {
             var weather = weatherRepository.getCurrent(city, unit)
             city.location = weather.coord
-            city.temperature = weather.main.temp
-            city.weatherIcon = weather.weather.first().icon
+            city.temperature = weather.temp
+            city.weatherIcon = weather.icon
         }
         this.screen?.showCities(citiesList)
     }

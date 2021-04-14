@@ -21,6 +21,7 @@ import com.kristof.weather.R
 import com.kristof.weather.models.ChartData
 import com.kristof.weather.models.City
 import com.kristof.weather.models.CurrentWeather
+import com.kristof.weather.presenters.UnitFormatter
 import com.kristof.weather.presenters.WeatherPresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -98,13 +99,13 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
     override fun showWeather(weather: CurrentWeather) {
         lifecycleScope.launch(Dispatchers.Main) {
-            textViewTemp.text = weather.main.temp.toString()
+            textViewTemp.text = weather.temp.toString() + UnitFormatter.Temperature(requireContext())
             textViewWind.text = weather.wind.speed.toString()
-            textViewPressure.text = weather.main.pressure.toString()
-            textViewRain.text = weather.main.humidity.toString()
+            textViewPressure.text = weather.pressure.toString()
+            textViewRain.text = weather.humidity.toString()
             textViewVisibility.text = weather.visibility.toString()
             val url =
-                "https://openweathermap.org/img/wn/" + weather.weather.first().icon + "@2x.png"
+                "https://openweathermap.org/img/wn/" + weather.icon + "@2x.png"
             Glide.with(requireContext()).load(url).into(imageView)
 
         }

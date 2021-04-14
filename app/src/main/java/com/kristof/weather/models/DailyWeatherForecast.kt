@@ -1,15 +1,13 @@
 package com.kristof.weather.models
 
-data class DailyWeatherForecast(
-    var temp: DailyTemperature,
-    var speed: Double,
-    var deg: Double,
-    var weather: List<WeatherReport>,
-    var dt: Int
-)
+import java.util.*
 
-data class DailyTemperature(
-    var day: Double,
-    var min: Double,
-    var max: Double
+data class DailyWeatherForecast(
+    var temp: Double,
+    var tempMin: Double,
+    var tempMax: Double,
+    var wind: Wind,
+    var icon: String,
+    var description: String,
+    var dt: Date
 )

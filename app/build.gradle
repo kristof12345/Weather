@@ -68,4 +68,9 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.29.1'
 
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "com.squareup.moshi:moshi-kotlin:1.11.0"
+    compile "com.squareup.moshi:moshi-adapters:1.11.0"
+    compile "com.squareup.okhttp3:okhttp:4.9.0"
 }

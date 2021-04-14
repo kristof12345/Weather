@@ -1,12 +1,11 @@
 package com.kristof.weather.models
 
-data class HourlyWeatherForecast(
-    var main: HourlyTemperature,
-    var wind: Wind,
-    var weather: List<WeatherReport>,
-    var dt: Int
-)
+import java.util.*
 
-data class HourlyTemperature(
+data class HourlyWeatherForecast(
     var temp: Double,
+    var wind: Wind,
+    var icon: String,
+    var description: String,
+    var dt: Date
 )

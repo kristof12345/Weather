@@ -27,7 +27,7 @@ class WeatherPresenter @Inject constructor(private val weatherRepository: Weathe
 
             var chartData = mutableListOf<ChartData>()
             for (data in response) {
-                chartData.add(ChartData(data.dt.toString(), data.main.temp, data.main.temp))
+                chartData.add(ChartData(data.dt.toString(), data.temp, data.temp))
             }
 
             this.screen?.showChart(chartData)
