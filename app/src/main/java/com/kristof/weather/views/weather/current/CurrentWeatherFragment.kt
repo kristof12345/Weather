@@ -42,18 +42,11 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
     private lateinit var textViewHumidity: TextView
     private lateinit var textViewVisibility: TextView
 
-
     private lateinit var chartView: AnyChartView
-    private lateinit var cartesian: Cartesian
 
     private var city: String? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_current, container, false)
 
         textViewCity = root.findViewById(R.id.tvCity)
@@ -72,16 +65,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
         chartView = root.findViewById(R.id.any_chart_view)
         chartView.setProgressBar(root.findViewById(R.id.progress_bar))
-        initChart()
         return root
-    }
-
-    private fun initChart() {
-        cartesian = AnyChart.cartesian()
-        cartesian.title("Daily weather forecast")
-        cartesian.xAxis(true)
-        cartesian.yAxis(true)
-        cartesian.legend(true)
     }
 
     override fun onAttach(context: Context) {
@@ -100,6 +84,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
     override fun onStop() {
         super.onStop()
+        chartView.clear()
         weatherPresenter.detachScreen()
     }
 
@@ -124,6 +109,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         lifecycleScope.launch(Dispatchers.Main) {
             val set = Set.instantiate()
             set.data(weather as List<DataEntry>?)
+            val cartesian = initChart()
             var temperatureColumn = cartesian.column(set.mapAs("{ x: 'date', y: 'value' }"))
             temperatureColumn.name(getString(R.string.temperature))
             chartView.setChart(cartesian)
@@ -134,5 +120,14 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         lifecycleScope.launch(Dispatchers.Main) {
             Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun initChart(): Cartesian {
+        val cartesian = AnyChart.cartesian()
+        cartesian.title("Daily weather forecast")
+        cartesian.xAxis(true)
+        cartesian.yAxis(true)
+        cartesian.legend(true)
+        return cartesian
     }
 }

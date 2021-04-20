@@ -35,5 +35,5 @@ object UnitFormatter {
         return preferences.getString("unit", "metric")!!
     }
 
-
+    fun Double.format(digits: Int) = "%.${digits}f".format(this)
 }

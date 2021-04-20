@@ -9,5 +9,6 @@ data class DailyWeatherForecast(
     var wind: Wind,
     var icon: String,
     var description: String,
+    var rain: Double,
     var dt: Date
 )

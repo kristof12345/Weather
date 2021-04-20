@@ -31,6 +31,7 @@ data class DailyWeatherForecast (
     /* Wind direction, degrees (meteorological) */
     val deg: Double,
     /* Date and time. Unix, UTC */
-    val dt: Double
+    val dt: Double,
+    val rain: Double?,
 ) {
 }
