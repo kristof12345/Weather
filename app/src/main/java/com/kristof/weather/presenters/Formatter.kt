@@ -3,7 +3,7 @@ package com.kristof.weather.presenters
 import android.content.Context
 import com.kristof.weather.getDefaultSharedPreferences
 
-object UnitFormatter {
+object Formatter {
     fun getTemperatureFormat(context: Context): String {
         return formatTemperature(getUnit(context))
     }

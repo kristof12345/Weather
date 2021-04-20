@@ -2,14 +2,14 @@ package com.kristof.weather.presenters
 
 import android.content.Context
 import com.kristof.weather.getDefaultSharedPreferences
-import com.kristof.weather.repositories.database.CitiesRepository
-import com.kristof.weather.repositories.network.WeatherRepository
+import com.kristof.weather.interfaces.ICitiesRepository
+import com.kristof.weather.interfaces.IWeatherRepository
 import com.kristof.weather.views.cities.ICitiesScreen
 import javax.inject.Inject
 
 class CitiesPresenter @Inject constructor(
-    private val citiesRepository: CitiesRepository,
-    private val weatherRepository: WeatherRepository
+    private val citiesRepository: ICitiesRepository,
+    private val weatherRepository: IWeatherRepository
 ) :
     Presenter<ICitiesScreen?>() {
 

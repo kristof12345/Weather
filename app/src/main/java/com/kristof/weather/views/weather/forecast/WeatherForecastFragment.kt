@@ -16,8 +16,8 @@ import com.anychart.data.Set
 import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.*
-import com.kristof.weather.presenters.UnitFormatter
-import com.kristof.weather.presenters.UnitFormatter.format
+import com.kristof.weather.presenters.Formatter
+import com.kristof.weather.presenters.Formatter.format
 import com.kristof.weather.presenters.WeatherForecastPresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -84,9 +84,9 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
 
     override fun showWeather(weather: WeatherForecastSummary) {
         lifecycleScope.launch(Dispatchers.Main) {
-            textViewAvgTemp.text = "${weather.avgTemp.format(2)} ${UnitFormatter.getTemperatureFormat(requireContext())}"
-            textViewMinTemp.text = "${weather.minTemp.format(2)} ${UnitFormatter.getTemperatureFormat(requireContext())}"
-            textViewMaxTemp.text = "${weather.maxTemp.format(2)} ${UnitFormatter.getTemperatureFormat(requireContext())}"
+            textViewAvgTemp.text = "${weather.avgTemp.format(2)} ${Formatter.getTemperatureFormat(requireContext())}"
+            textViewMinTemp.text = "${weather.minTemp.format(2)} ${Formatter.getTemperatureFormat(requireContext())}"
+            textViewMaxTemp.text = "${weather.maxTemp.format(2)} ${Formatter.getTemperatureFormat(requireContext())}"
 
             textViewAvgRain.text = "${weather.avgRain.format(2)} mm"
             textViewTotalRain.text = "${weather.totalRain.format(2)} mm"

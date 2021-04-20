@@ -1,15 +1,16 @@
 package com.kristof.weather.repositories.network
 
+import com.kristof.weather.interfaces.IWeatherRepository
 import com.kristof.weather.models.*
 import io.swagger.client.apis.WeatherApi
 import java.util.*
 
-class WeatherRepository {
+class WeatherRepository : IWeatherRepository {
 
     private val token: String = "4891f6bfdfbdbfd179496273e38b0619"
     private lateinit var api: WeatherApi
 
-    fun getCurrent(city: City, unit: String): CurrentWeather {
+    override fun getCurrent(city: City, unit: String): CurrentWeather {
         try {
             api = WeatherApi("https://api.openweathermap.org/data/2.5")
             var response = api.weatherGet(token, city.name, unit)
@@ -30,7 +31,7 @@ class WeatherRepository {
         }
     }
 
-    fun getHourlyForecast(city: City, unit: String): List<HourlyWeatherForecast> {
+    override fun getHourlyForecast(city: City, unit: String): List<HourlyWeatherForecast> {
         try {
             api = WeatherApi("https://pro.openweathermap.org/data/2.5")
             var response = api.forecastHourlyGet(token, city.name, unit)
@@ -48,7 +49,7 @@ class WeatherRepository {
         }
     }
 
-    fun getDailyForecast(city: City, unit: String): List<DailyWeatherForecast> {
+    override fun getDailyForecast(city: City, unit: String): List<DailyWeatherForecast> {
         try {
             api = WeatherApi("https://api.openweathermap.org/data/2.5")
             var response = api.forecastDailyGet(token, city.name, unit)

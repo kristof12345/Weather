@@ -21,7 +21,7 @@ import com.kristof.weather.R
 import com.kristof.weather.models.ChartData
 import com.kristof.weather.models.City
 import com.kristof.weather.models.CurrentWeather
-import com.kristof.weather.presenters.UnitFormatter
+import com.kristof.weather.presenters.Formatter
 import com.kristof.weather.presenters.WeatherPresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,13 +90,13 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
     override fun showWeather(weather: CurrentWeather) {
         lifecycleScope.launch(Dispatchers.Main) {
-            textViewTemp.text = "${weather.temp} ${UnitFormatter.getTemperatureFormat(requireContext())}"
+            textViewTemp.text = "${weather.temp} ${Formatter.getTemperatureFormat(requireContext())}"
             textViewDescription.text = weather.description
 
             textViewHumidity.text = "${weather.humidity}%"
             textViewVisibility.text = weather.visibility.toString()
 
-            textViewWind.text = "${weather.wind.speed} ${UnitFormatter.getSpeedFormat(requireContext())}"
+            textViewWind.text = "${weather.wind.speed} ${Formatter.getSpeedFormat(requireContext())}"
             textViewDirection.text = "${weather.wind.deg}°"
 
             val url = "https://openweathermap.org/img/wn/" + weather.icon + "@2x.png"
