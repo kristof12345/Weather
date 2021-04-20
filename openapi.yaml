@@ -1,0 +1,265 @@
+openapi: 3.0.1
+info:
+  title: Weather Server
+  description: "This is a weather data server. For each point on the globe, we provide historical, current and forecasted weather data via light-speed APIs."
+  version: 1.0.0
+externalDocs:
+  description: Official OpenWeatheMap API description
+  url: https://openweathermap.org/api
+servers:
+- url: https://api.openweathermap.org/data/2.5
+paths:
+  /weather:
+    get:
+      tags:
+      - weather
+      summary: Get current weather
+      parameters:
+      - name: appid
+        in: query
+        description: "API token"
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: "City name, state code and country code divided by comma, use ISO 3166 country codes."
+        required: true
+        schema:
+          type: string
+      - name: units
+        in: query
+        description: "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentWeather'
+      security:
+      - api_key: []
+  /forecast/daily:
+    get:
+      tags:
+      - weather
+      summary: Get daily weather forecast
+      parameters:
+      - name: appid
+        in: query
+        description: "API token"
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: "City name, state code and country code divided by comma, use ISO 3166 country codes."
+        required: true
+        schema:
+          type: string
+      - name: units
+        in: query
+        description: "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DailyWeatherForecast'
+      security:
+      - api_key: []
+  /forecast/hourly:
+    get:
+      tags:
+      - weather
+      summary: Get hourly weather forecast
+      parameters:
+      - name: appid
+        in: query
+        description: "API token"
+        required: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: "City name, state code and country code divided by comma, use ISO 3166 country codes."
+        required: true
+        schema:
+          type: string
+      - name: units
+        in: query
+        description: "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HourlyWeatherForecast'
+      security:
+      - api_key: []
+components:
+  schemas:
+    CurrentWeather:
+      type: object
+      properties:
+        coord:
+          $ref: '#/components/schemas/Location'
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherReport'
+        visibility:
+          type: number
+          description: "Visibility distance"
+        wind:
+          $ref: '#/components/schemas/Wind'
+        main:
+          type: object
+          properties:
+            temp:
+              type: number
+              description: "Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit"
+            temp_min:
+              type: number
+              description: "Minimum temperature at the moment"
+            temp_max:
+              type: number
+              description: "Maximum temperature at the moment."
+            pressure:
+              type: number
+              description: "Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa"
+            humidity:
+              type: number
+              description: "Humidity, %"
+          required:
+            - temp
+            - pressure
+            - humidity
+    DailyWeatherForecast:
+      type: object
+      properties:
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherReport'
+        temp:
+          $ref: '#/components/schemas/DailyTemperature'
+        speed:
+          type: number
+          description: "Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour."
+        deg:
+          type: number
+          description: "Wind direction, degrees (meteorological)"
+        dt:
+          type: number
+          description: "Date and time. Unix, UTC"
+      required:
+        - weather
+        - temp
+        - speed
+        - deg
+        - dt
+    HourlyWeatherForecast:
+      type: object
+      properties:
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherReport'
+        main:
+          type: object
+          properties:
+            temp:
+              type: number
+              description: "Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
+          required:
+            - temp
+        dt:
+          type: number
+          description: "Date and time. Unix, UTC"
+        wind:
+          $ref: '#/components/schemas/Wind'
+      required:
+        - weather
+        - main
+        - dt
+        - wind
+    WeatherReport:
+      type: object
+      properties:
+        description:
+          type: string
+          description: "Weather condition description text"
+        icon:
+          type: string
+          description: "Weather icon id"
+      required:
+        - description
+        - icon
+    DailyTemperature:
+      type: object
+      description: "Humidity, %"
+      properties:
+        day:
+          type: number
+          description: " Day temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
+        min:
+          type: number
+          description: "Min daily temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
+        max:
+          type: number
+          description: "Max daily temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
+      required:
+        - day
+        - min
+        - max
+    Location:
+      type: object
+      properties:
+        lon:
+          type: number
+          description: "City geo location, longitude"
+        lat:
+          type: number
+          description: "City geo location, latitude"
+      required:
+        - lon
+        - lat
+    Wind:
+      type: object
+      properties:
+        speed:
+          type: number
+          description: "Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour."
+        deg:
+          type: number
+          description: "Wind direction, degrees (meteorological)"
+      required:
+        - speed
+        - deg
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: appid
+      in: query

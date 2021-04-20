@@ -40,7 +40,7 @@ class WeatherRepository {
                     Wind(it.wind.speed, it.wind.deg),
                     it.weather.first().icon,
                     it.weather.first().description,
-                    Date(it.dt.toLong())
+                    Date(it.dt.toLong()*1000)
                 )
             }
         } catch (e: Exception) {

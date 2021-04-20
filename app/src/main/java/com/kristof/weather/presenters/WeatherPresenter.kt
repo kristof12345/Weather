@@ -7,6 +7,7 @@ import com.kristof.weather.models.City
 import com.kristof.weather.repositories.network.NetworkException
 import com.kristof.weather.repositories.network.WeatherRepository
 import com.kristof.weather.views.weather.current.ICurrentWeatherScreen
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 
@@ -23,11 +24,12 @@ class WeatherPresenter @Inject constructor(private val weatherRepository: Weathe
     fun getHourlyWeather(city: City, context: Context) {
         val unit = getUnit(context)
         try {
+            val formatter= SimpleDateFormat("HH:mm")
             var response = weatherRepository.getHourlyForecast(city, unit)
 
             var chartData = mutableListOf<ChartData>()
             for (data in response) {
-                chartData.add(ChartData(data.dt.toString(), data.temp, data.temp))
+                chartData.add(ChartData(formatter.format(data.dt), data.temp))
             }
 
             this.screen?.showChart(chartData)

@@ -32,12 +32,16 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
     lateinit var weatherPresenter: WeatherPresenter
 
     private lateinit var textViewCity: TextView
-    private lateinit var textViewWind: TextView
-    private lateinit var textViewPressure: TextView
     private lateinit var textViewTemp: TextView
-    private lateinit var textViewRain: TextView
-    private lateinit var textViewVisibility: TextView
     private lateinit var imageView: ImageView
+    private lateinit var textViewDescription: TextView
+
+    private lateinit var textViewWind: TextView
+    private lateinit var textViewDirection: TextView
+
+    private lateinit var textViewHumidity: TextView
+    private lateinit var textViewVisibility: TextView
+
 
     private lateinit var chartView: AnyChartView
     private lateinit var cartesian: Cartesian
@@ -55,10 +59,13 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         textViewCity = root.findViewById(R.id.tvCity)
         textViewTemp = root.findViewById(R.id.tvTemp)
         imageView = root.findViewById(R.id.imageWeather)
-        textViewRain = root.findViewById(R.id.tvRain)
+        textViewDescription = root.findViewById(R.id.tvDescription)
+
+        textViewHumidity = root.findViewById(R.id.tvRain)
         textViewVisibility = root.findViewById(R.id.tvVis)
+
         textViewWind = root.findViewById(R.id.tvWind)
-        textViewPressure = root.findViewById(R.id.tvPressure)
+        textViewDirection = root.findViewById(R.id.tvDirection)
 
         city = arguments?.getString("city")
         textViewCity.text = "$city current weather"
@@ -75,7 +82,6 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         cartesian.xAxis(true)
         cartesian.yAxis(true)
         cartesian.legend(true)
-        cartesian.tooltip().titleFormat("{%SeriesName} ({%x})")
     }
 
     override fun onAttach(context: Context) {
@@ -99,13 +105,16 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
     override fun showWeather(weather: CurrentWeather) {
         lifecycleScope.launch(Dispatchers.Main) {
-            textViewTemp.text = weather.temp.toString() + UnitFormatter.getTemperature(requireContext())
-            textViewWind.text = weather.wind.speed.toString()
-            textViewPressure.text = weather.pressure.toString()
-            textViewRain.text = weather.humidity.toString()
+            textViewTemp.text = "${weather.temp} ${UnitFormatter.getTemperatureFormat(requireContext())}"
+            textViewDescription.text = weather.description
+
+            textViewHumidity.text = "${weather.humidity}%"
             textViewVisibility.text = weather.visibility.toString()
-            val url =
-                "https://openweathermap.org/img/wn/" + weather.icon + "@2x.png"
+
+            textViewWind.text = "${weather.wind.speed} ${UnitFormatter.getSpeedFormat(requireContext())}"
+            textViewDirection.text = "${weather.wind.deg}°"
+
+            val url = "https://openweathermap.org/img/wn/" + weather.icon + "@2x.png"
             Glide.with(requireContext()).load(url).into(imageView)
 
         }
@@ -115,8 +124,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
         lifecycleScope.launch(Dispatchers.Main) {
             val set = Set.instantiate()
             set.data(weather as List<DataEntry>?)
-            var temperatureColumn =
-                cartesian.rangeColumn(set.mapAs("{ x: 'date', high: 'high', low: 'low' }"))
+            var temperatureColumn = cartesian.column(set.mapAs("{ x: 'date', y: 'value' }"))
             temperatureColumn.name(getString(R.string.temperature))
             chartView.setChart(cartesian)
         }

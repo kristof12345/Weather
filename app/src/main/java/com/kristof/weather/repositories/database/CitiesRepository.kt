@@ -19,4 +19,8 @@ class CitiesRepository {
     fun removeFromFavourites(name: String, context: Context) {
         AppDatabase.getInstance(context).cityDao().deleteCityByName(name)
     }
+
+    fun updateFavourite(id: Long, name: String, context: Context) {
+        AppDatabase.getInstance(context).cityDao().updateCity(id, name)
+    }
 }
