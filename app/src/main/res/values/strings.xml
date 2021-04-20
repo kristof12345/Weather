@@ -2,7 +2,7 @@
     <string name="app_name">Weather</string>
 
     <!-- Titles -->
-    <string name="title_activity_cities">Cities</string>
+    <string name="title_activity_cities">Weather</string>
     <string name="title_current">Daily weather</string>
     <string name="title_forecast">Weather forecast</string>
     <string name="title_activity_settings">Settings</string>
