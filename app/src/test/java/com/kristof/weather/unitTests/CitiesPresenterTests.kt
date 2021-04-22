@@ -112,4 +112,22 @@ class CitiesPresenterTests {
         // Assert
         verify(screenMock).showCities(mutableListOf(City("Budapest", Location(1.0, 2.0), 16.5, "icon")))
     }
+
+    @Test
+    fun getCitiesWithNetworkErrorTest() {
+        // Arrange
+        var screenMock = Mockito.mock(ICitiesScreen::class.java)
+        var citiesPresenter = CitiesPresenter(citiesRepository, WeatherRepositoryMock(true))
+        citiesPresenter.addCity("New York", context)
+
+        // Act
+        citiesPresenter.attachScreen(screenMock)
+        citiesPresenter.getCities(context)
+
+        // Assert
+        verify(screenMock).showError("A network error occurred.")
+
+        // Clean
+        citiesPresenter.deleteCity("New York", context)
+    }
 }
