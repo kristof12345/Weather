@@ -4,6 +4,7 @@ import android.content.Context
 import com.kristof.weather.getDefaultSharedPreferences
 import com.kristof.weather.interfaces.ICitiesRepository
 import com.kristof.weather.interfaces.IWeatherRepository
+import com.kristof.weather.repositories.network.NetworkException
 import com.kristof.weather.views.cities.ICitiesScreen
 import javax.inject.Inject
 
@@ -13,11 +14,15 @@ class CitiesPresenter @Inject constructor(private val citiesRepository: ICitiesR
         val unit = preferences.getString("unit", "metric")!!
 
         var citiesList = citiesRepository.getFavourites(context)
+        try {
         for (city in citiesList) {
             var weather = weatherRepository.getCurrent(city, unit)
             city.location = weather.coord
             city.temperature = weather.temp
             city.weatherIcon = weather.icon
+        }
+        } catch (e: NetworkException) {
+            this.screen?.showError(e.message!!)
         }
         this.screen?.showCities(citiesList)
     }

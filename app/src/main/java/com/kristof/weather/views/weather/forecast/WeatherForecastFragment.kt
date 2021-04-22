@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.anychart.AnyChart
@@ -105,7 +106,9 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
     }
 
     override fun showError(msg: String) {
-        TODO("Not yet implemented")
+        lifecycleScope.launch(Dispatchers.Main) {
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun initChart(): Cartesian {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -56,12 +57,12 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun onStart() {
         super.onStart()
-        citiesPresenter.attachScreen(this);
+        citiesPresenter.attachScreen(this)
     }
 
     override fun onStop() {
         super.onStop()
-        citiesPresenter.detachScreen();
+        citiesPresenter.detachScreen()
     }
 
     override fun onResume() {
@@ -102,7 +103,7 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun navigateToDetails(city: City) {
         val args = Bundle()
-        args.putString("city", city.name);
+        args.putString("city", city.name)
         var intent = Intent(this, WeatherActivity::class.java)
         intent.putExtras(args)
         startActivity(intent)
@@ -120,6 +121,8 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
     }
 
     override fun showError(msg: String) {
-        TODO("Not yet implemented")
+        lifecycleScope.launch(Dispatchers.Main) {
+            Toast.makeText(applicationContext, msg, Toast.LENGTH_LONG).show()
+        }
     }
 }
