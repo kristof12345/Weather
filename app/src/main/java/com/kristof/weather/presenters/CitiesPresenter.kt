@@ -1,27 +1,28 @@
 package com.kristof.weather.presenters
 
 import android.content.Context
-import com.kristof.weather.repositories.database.CitiesRepository
-import com.kristof.weather.repositories.network.WeatherRepository
+import com.kristof.weather.getDefaultSharedPreferences
+import com.kristof.weather.interfaces.ICitiesRepository
+import com.kristof.weather.interfaces.IWeatherRepository
+import com.kristof.weather.repositories.network.NetworkException
 import com.kristof.weather.views.cities.ICitiesScreen
 import javax.inject.Inject
 
-class CitiesPresenter @Inject constructor(
-    private val citiesRepository: CitiesRepository,
-    private val weatherRepository: WeatherRepository
-) :
-    Presenter<ICitiesScreen?>() {
-
+class CitiesPresenter @Inject constructor(private val citiesRepository: ICitiesRepository, private val weatherRepository: IWeatherRepository) : Presenter<ICitiesScreen?>() {
     fun getCities(context: Context) {
+        val preferences = context.getDefaultSharedPreferences()
+        val unit = preferences.getString("unit", "metric")!!
+
         var citiesList = citiesRepository.getFavourites(context)
+        try {
         for (city in citiesList) {
-            var response = weatherRepository.getCurrent(city).execute()
-            if (response.isSuccessful) {
-                var weather = response.body()!!
-                city.location = weather.coord
-                city.temperature = weather.main.temp
-                city.weatherIcon = weather.weather.first().icon
-            }
+            var weather = weatherRepository.getCurrent(city, unit)
+            city.location = weather.coord
+            city.temperature = weather.temp
+            city.weatherIcon = weather.icon
+        }
+        } catch (e: NetworkException) {
+            this.screen?.showError(e.message!!)
         }
         this.screen?.showCities(citiesList)
     }

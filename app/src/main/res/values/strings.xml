@@ -1,12 +1,27 @@
 <resources>
     <string name="app_name">Weather</string>
+
+    <!-- Titles -->
+    <string name="title_activity_cities">Weather</string>
     <string name="title_current">Daily weather</string>
     <string name="title_forecast">Weather forecast</string>
-    <string name="title_activity_cities">Cities</string>
-    <string name="title_current_weather">Current</string>
-    <string name="title_weather_forecast">Forecast</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Tabs -->
+    <string name="current_weather_tab">Current</string>
+    <string name="weather_forecast_tab">Forecast</string>
+
+    <!-- Dialogs -->
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
-    <string name="dialog_title">Add city to favourites</string>
-    <string name="cityname">City name</string>
+    <string name="add_city_dialog_title">Add city to favourites</string>
+    <string name="city_name">City name</string>
+
+    <!-- Weather -->
+
+    <!-- Settings -->
+    <string name="action_settings">Settings</string>
+    <string name="units_header">Units</string>
+    <string name="measurement_units">Unit of measurement</string>
+    <string name="temperature">Temperature</string>
 </resources>

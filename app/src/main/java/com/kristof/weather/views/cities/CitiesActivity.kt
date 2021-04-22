@@ -3,6 +3,9 @@ package com.kristof.weather.views.cities
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,6 +14,7 @@ import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.City
 import com.kristof.weather.presenters.CitiesPresenter
+import com.kristof.weather.views.settings.SettingsActivity
 import com.kristof.weather.views.weather.WeatherActivity
 import kotlinx.android.synthetic.main.activity_cities.*
 import kotlinx.android.synthetic.main.add_city_dialog.view.*
@@ -22,6 +26,18 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
     @Inject
     lateinit var citiesPresenter: CitiesPresenter
     lateinit var adapter: CityListAdapter
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> navigateToSettings()
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +57,12 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun onStart() {
         super.onStart()
-        citiesPresenter.attachScreen(this);
+        citiesPresenter.attachScreen(this)
     }
 
     override fun onStop() {
         super.onStop()
-        citiesPresenter.detachScreen();
+        citiesPresenter.detachScreen()
     }
 
     override fun onResume() {
@@ -63,10 +79,10 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
             val builder = AlertDialog.Builder(it)
             val dialogView = this.layoutInflater.inflate(R.layout.add_city_dialog, null)
             builder.setView(dialogView).apply {
-                setPositiveButton(R.string.ok) { _, _ -> addCity(dialogView.cityname.text.toString()) }
+                setPositiveButton(R.string.ok) { _, _ -> addCity(dialogView.city_name.text.toString()) }
                 setNegativeButton(R.string.cancel) { _, _ -> }
             }
-            builder.setTitle(R.string.dialog_title)
+            builder.setTitle(R.string.add_city_dialog_title)
             builder.create()
         }
         alertDialog?.show()
@@ -87,19 +103,26 @@ class CitiesActivity : AppCompatActivity(), ICitiesScreen {
 
     override fun navigateToDetails(city: City) {
         val args = Bundle()
-        args.putString("city", city.name);
+        args.putString("city", city.name)
         var intent = Intent(this, WeatherActivity::class.java)
         intent.putExtras(args)
         startActivity(intent)
     }
 
-    override fun showCities(cityList: List<City>) {
+    private fun navigateToSettings(): Boolean {
+        startActivity(Intent(this, SettingsActivity::class.java))
+        return true
+    }
+
+    override fun showCities(citiesList: List<City>) {
         lifecycleScope.launch(Dispatchers.Main) {
-            adapter.setCityList(cityList)
+            adapter.setCityList(citiesList)
         }
     }
 
     override fun showError(msg: String) {
-        TODO("Not yet implemented")
+        lifecycleScope.launch(Dispatchers.Main) {
+            Toast.makeText(applicationContext, msg, Toast.LENGTH_LONG).show()
+        }
     }
 }
