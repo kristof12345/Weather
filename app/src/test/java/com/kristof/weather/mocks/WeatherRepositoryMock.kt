@@ -2,17 +2,22 @@ package com.kristof.weather.mocks
 
 import com.kristof.weather.interfaces.IWeatherRepository
 import com.kristof.weather.models.*
+import com.kristof.weather.repositories.network.NetworkException
 
-class WeatherRepositoryMock : IWeatherRepository {
+class WeatherRepositoryMock(private val throwError: Boolean = false, private val multiple: Boolean = false) : IWeatherRepository {
     override fun getCurrent(city: City, unit: String): CurrentWeather {
-        return CurrentWeather(Location(1.0,2.0), 16.5, 10.5, 20.5, 100.99, 5.7, 300, Wind(10.4, 180.0), "icon", "nice weather")
+        if (throwError) throw NetworkException()
+        return WeatherData.Current
     }
 
     override fun getHourlyForecast(city: City, unit: String): List<HourlyWeatherForecast> {
-        TODO("Not yet implemented")
+        if (throwError) throw NetworkException()
+        return WeatherData.hourly
     }
 
     override fun getDailyForecast(city: City, unit: String): List<DailyWeatherForecast> {
-        TODO("Not yet implemented")
+        if (throwError) throw NetworkException()
+        if (multiple) return  WeatherData.dailyMultiple
+        return WeatherData.daily
     }
 }

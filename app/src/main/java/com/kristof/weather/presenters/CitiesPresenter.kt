@@ -7,12 +7,7 @@ import com.kristof.weather.interfaces.IWeatherRepository
 import com.kristof.weather.views.cities.ICitiesScreen
 import javax.inject.Inject
 
-class CitiesPresenter @Inject constructor(
-    private val citiesRepository: ICitiesRepository,
-    private val weatherRepository: IWeatherRepository
-) :
-    Presenter<ICitiesScreen?>() {
-
+class CitiesPresenter @Inject constructor(private val citiesRepository: ICitiesRepository, private val weatherRepository: IWeatherRepository) : Presenter<ICitiesScreen?>() {
     fun getCities(context: Context) {
         val preferences = context.getDefaultSharedPreferences()
         val unit = preferences.getString("unit", "metric")!!

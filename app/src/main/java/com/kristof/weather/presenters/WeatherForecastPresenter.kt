@@ -2,6 +2,7 @@ package com.kristof.weather.presenters
 
 import android.content.Context
 import com.kristof.weather.getDefaultSharedPreferences
+import com.kristof.weather.interfaces.IWeatherRepository
 import com.kristof.weather.models.City
 import com.kristof.weather.models.HighLowChartData
 import com.kristof.weather.models.WeatherForecastSummary
@@ -11,7 +12,7 @@ import com.kristof.weather.views.weather.forecast.IWeatherForecastScreen
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-class WeatherForecastPresenter @Inject constructor(private val weatherRepository: WeatherRepository) :
+class WeatherForecastPresenter @Inject constructor(private val weatherRepository: IWeatherRepository) :
     Presenter<IWeatherForecastScreen?>() {
 
     fun getDailyWeather(city: City, context: Context) {

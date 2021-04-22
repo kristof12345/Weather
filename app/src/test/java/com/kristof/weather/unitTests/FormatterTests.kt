@@ -62,4 +62,40 @@ class FormatterTests {
         // Assert
         assertEquals("\u2109", format)
     }
+
+    @Test
+    fun metricSpeedFormatTest() {
+        // Arrange
+        Mockito.`when`(sharedPrefs.getString(any(), any())).thenReturn("metric")
+
+        // Act
+        var format = Formatter.getSpeedFormat(context)
+
+        // Assert
+        assertEquals("m/s", format)
+    }
+
+    @Test
+    fun standardSpeedFormatTest() {
+        // Arrange
+        Mockito.`when`(sharedPrefs.getString(any(), any())).thenReturn("standard")
+
+        // Act
+        var format = Formatter.getSpeedFormat(context)
+
+        // Assert
+        assertEquals("m/s", format)
+    }
+
+    @Test
+    fun imperialSpeedFormatTest() {
+        // Arrange
+        Mockito.`when`(sharedPrefs.getString(any(), any())).thenReturn("imperial")
+
+        // Act
+        var format = Formatter.getSpeedFormat(context)
+
+        // Assert
+        assertEquals("miles/h", format)
+    }
 }
