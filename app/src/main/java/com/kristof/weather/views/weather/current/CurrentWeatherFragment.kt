@@ -16,6 +16,10 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.charts.Cartesian
 import com.anychart.data.Set
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.ChartData
@@ -30,6 +34,7 @@ import javax.inject.Inject
 class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
     @Inject
     lateinit var weatherPresenter: WeatherPresenter
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var textViewCity: TextView
     private lateinit var textViewTemp: TextView
@@ -47,6 +52,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
     private var city: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        firebaseAnalytics = Firebase.analytics
         val root = inflater.inflate(R.layout.fragment_current, container, false)
 
         textViewCity = root.findViewById(R.id.tvCity)
@@ -75,6 +81,7 @@ class CurrentWeatherFragment : Fragment(), ICurrentWeatherScreen {
 
     override fun onStart() {
         super.onStart()
+        firebaseAnalytics.logEvent("View_current_weather") { param("city_name", city!!) }
         weatherPresenter.attachScreen(this)
         lifecycleScope.launch(Dispatchers.IO) {
             weatherPresenter.getCurrentWeather(City(city!!), requireContext())

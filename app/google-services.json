@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "169184729749",
+    "project_id": "androidlab-db4b4",
+    "storage_bucket": "androidlab-db4b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169184729749:android:4311488cce4a0555cf599c",
+        "android_client_info": {
+          "package_name": "com.kristof.weather"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169184729749-jci6s31eobpqfo38h3ctk7rggef41ifk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvTJpU8NVFpgj7oFulOl_cjROBfR4XV9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169184729749-jci6s31eobpqfo38h3ctk7rggef41ifk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

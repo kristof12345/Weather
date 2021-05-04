@@ -14,6 +14,10 @@ import com.anychart.AnyChartView
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.charts.Cartesian
 import com.anychart.data.Set
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.kristof.weather.MainApplication
 import com.kristof.weather.R
 import com.kristof.weather.models.*
@@ -27,6 +31,7 @@ import javax.inject.Inject
 class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
     @Inject
     lateinit var weatherPresenter: WeatherForecastPresenter
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var textViewCity: TextView
 
@@ -42,6 +47,7 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
     private var city: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        firebaseAnalytics = Firebase.analytics
         val root = inflater.inflate(R.layout.fragment_forecast, container, false)
 
         textViewCity = root.findViewById(R.id.tvCity)
@@ -68,6 +74,7 @@ class WeatherForecastFragment : Fragment(), IWeatherForecastScreen {
 
     override fun onStart() {
         super.onStart()
+        firebaseAnalytics.logEvent("View_weather_forecast") { param("city_name", city!!) }
         weatherPresenter.attachScreen(this)
         lifecycleScope.launch(Dispatchers.IO) {
             weatherPresenter.getDailyWeather(
